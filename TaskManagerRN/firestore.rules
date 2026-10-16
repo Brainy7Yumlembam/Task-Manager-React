@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions for validation
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidPriority(priority) {
+      return priority in ['LOW', 'MEDIUM', 'HIGH'];
+    }
+
+    function isValidTask(data) {
+      return data.size() >= 5
+        && data.id is string
+        && data.userId is string
+        && data.title is string && data.title.size() > 0 && data.title.size() <= 200
+        && (!('description' in data) || data.description is string)
+        && (!('dueDate' in data) || data.dueDate == null || data.dueDate is string)
+        && (!('dueDateTime' in data) || data.dueDateTime == null || data.dueDateTime is number)
+        && isValidPriority(data.priority)
+        && data.isCompleted is bool
+        && data.reminderEnabled is bool
+        && data.reminderLeadMinutes is number
+        && data.createdAt is number
+        && data.updatedAt is number
+        && (!('deletedAt' in data) || data.deletedAt == null || data.deletedAt is number);
+    }
+
+    // Root users collection
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+
+      // Tasks subcollection: users/{userId}/tasks/{taskId}
+      match /tasks/{taskId} {
+        // Users can only read their own tasks
+        allow read: if isOwner(userId);
+
+        // Users can create a task if they own the path, and valid data is provided
+        allow create: if isOwner(userId)
+          && request.resource.data.userId == userId
+          && request.resource.data.id == taskId
+          && isValidTask(request.resource.data);
+
+        // Users can update their own task
+        allow update: if isOwner(userId)
+          && request.resource.data.userId == userId
+          && request.resource.data.id == taskId
+          && isValidTask(request.resource.data);
+
+        // Users can delete their own task document
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // Deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

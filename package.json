@@ -1,0 +1,10 @@
+{
+  "name": "task-manager-react-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "npm --prefix TaskManagerRN start",
+    "android": "npm --prefix TaskManagerRN run android",
+    "test": "npm --prefix TaskManagerRN test"
+  }
+}

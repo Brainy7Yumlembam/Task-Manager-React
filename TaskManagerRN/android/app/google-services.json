@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "142198364593",
+    "project_id": "practice-app-370a0",
+    "storage_bucket": "practice-app-370a0.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142198364593:android:c1f7b08cc48c544e32c590",
+        "android_client_info": {
+          "package_name": "com.brainy.taskmanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhthkNVmnMshkerwWMS9aF8Z-tyehMh4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142198364593:android:1674ec9179a2f27832c590",
+        "android_client_info": {
+          "package_name": "com.example.practiceapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhthkNVmnMshkerwWMS9aF8Z-tyehMh4A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
